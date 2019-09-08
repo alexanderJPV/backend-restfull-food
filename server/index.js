@@ -3,11 +3,13 @@ const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
 const db = require('./db');
+const data = require('./src/_helpers/liquidBase/changeLog');
 
 // reset database.
-// db.sequelize.sync({ force: true }).then(() => {
-//     console.log('Drop and resync with { force: true }');
-// });
+db.sequelize.sync({ force: true }).then(() => {
+    console.log('Drop and resync with { force: true }');
+    data.initialDataUser();
+});
 
 app.set('port', process.env.PORT || 3000);
 
