@@ -71,4 +71,59 @@ usuarioCtrl.delete = (req, res) => {
         });
 }
 
+
+usuarioCtrl.resetPasswordInit = (req, res) => {
+    const email = req.body.email;
+    const refreshToken = cryptoRandomString({ length: 50, type: 'base64' });
+    Ususario.findOne({ where: { email: email } }).then((usuario) => {
+        const url = 'http://localhost:4200/reset-password-finish/';
+        mail.sendMail('/html/resetPassword.html', 'Recuperar Contraseña', url + refreshToken, usuario);
+        res.status(200).json({ key: "Esta es la llave que se mandara" });
+        const data = usuario.dataValues;
+        data.reset_key = refreshToken;
+        Usuario.update(data, { where: { id: usuario.id } }).then(() => {
+            console.log('Se le envio una URL');
+            res.status(200).json('Your account was updated successfully');
+        });
+    }).catch((err) => {
+        res.status(500).json({ msg: 'error', details: err });
+    });
+}
+
+usuarioCtrl.resetPasswordFinish = (req, res) => {
+    const key = req.body.key;
+    const newPassword = req.body.newPassword;
+    Usuario.findOne({ where: { reset_key: key } }).
+        then((usuario) => {
+            bcrypt.hash(newPassword, 10, function (err, hash) {
+                const data = usuario.dataValues;
+                data.reset_key = null;
+                data.password = hash;
+                Usuario.update(data, { where: { id: data.id } }).then(() => {
+                    console.log('La contrasenia fue actualizada exitosamente');
+                    res.status(200).json('Your account was updated successfully');
+                });
+            });
+        }).catch((err) => {
+            res.status(500).json({ msg: 'error', details: err });
+        });
+}
+
+usuarioCtrl.activateAccount = (req, res) => {
+    const key = req.body.key;
+    Usuario.findOne({ where: { activate_key: key } }).then(
+        (usuario) => {
+            const data = usuario.dataValues;
+            data.status = true;
+            data.activate_key = null;
+            Usuario.update(data, { where: { id: data.id } }).then(() => {
+                res.status(200).json({ key: 'The account was successfuly' });
+            }).cath((err) => {
+                res.status(500).json({ msg: 'error', details: err });
+            })
+        }).catch((err) => {
+            res.status(200).json({ msg: 'error', details: err });
+        })
+}
+
 module.exports = usuarioCtrl;
