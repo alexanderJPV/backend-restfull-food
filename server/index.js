@@ -5,18 +5,21 @@ const app = express();
 const db = require('./db');
 
 // reset database.
-db.sequelize.sync({ force: true }).then(() => {
-    console.log('Drop and resync with { force: true }');
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//     console.log('Drop and resync with { force: true }');
+// });
 
-app.set('port', process.env.PORT || 3200);
+app.set('port', process.env.PORT || 3000);
 
 // midlewares
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors({ origin: 'http://localhost:4200' })) // connect to port angular
 
+// routes
+app.use(require('./src/routes/usuario.route'));
+
 // starting server
 app.listen(app.get('port'), () => {
-    console.log('Server on port 3200');
+    console.log('Server on port 3000');
 });
