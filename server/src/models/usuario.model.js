@@ -30,7 +30,13 @@ module.exports = (sequealize, Sequealize) => {
             }
         },
         imagen: {
-            type: Sequealize.STRING
+            type: Sequealize.STRING(255)
+        },
+        type: {
+            type: Sequealize.STRING(255)
+        },
+        data: {
+            type: Sequealize.STRING(255)
         },
         rol: {
             type: Sequealize.ARRAY(Sequealize.STRING)
