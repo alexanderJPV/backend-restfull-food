@@ -19,6 +19,24 @@ module.exports = (sequealize, Sequealize) => {
                 }
             }
         },
+        email: {
+            type: Sequealize.STRING,
+            unique: {
+                args: true,
+                msg: 'Email-id required'
+            },
+            allowNull: false,
+            validate: {
+                notEmpty: {
+                    args: true,
+                    msg: 'Emails-id required'
+                },
+                isEmail: {
+                    args: true,
+                    msg: 'Valid email-id required'
+                }
+            }
+        },
         password: {
             type: Sequealize.STRING,
             allowNull: false,

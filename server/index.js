@@ -20,6 +20,7 @@ app.use(cors({ origin: 'http://localhost:4200' })) // connect to port angular
 
 // routes
 app.use(require('./src/routes/usuario.route'));
+app.use(require('./src/routes/auth.route'));
 
 // starting server
 app.listen(app.get('port'), () => {
