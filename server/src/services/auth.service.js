@@ -24,7 +24,18 @@ verifyToken = (req, res, next) => {
     }
 }
 
+showInsideToken = (token) => {
+    return jwt.verify(token, 'secretkey', (err, authData) => {
+        if (err) {
+            return null;
+        } else {
+            return authData.user;
+        }
+    });
+}
+
 module.exports = {
     createToken,
-    verifyToken
+    verifyToken,
+    showInsideToken
 };

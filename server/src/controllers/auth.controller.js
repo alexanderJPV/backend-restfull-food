@@ -60,4 +60,13 @@ usuarioCtrl.signin = (req, res) => {
     });
 }
 
+usuarioCtrl.account = async (req, res) => {
+    try {
+        const data = await auth.showInsideToken(req.token);
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(500).json({ msg: 'Error token expired', details: err })
+    }
+}
+
 module.exports = usuarioCtrl;
