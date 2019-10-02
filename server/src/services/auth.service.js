@@ -34,8 +34,13 @@ showInsideToken = (token) => {
     });
 }
 
+destroyToken = (token) => {
+    return jwt.destroy(token);
+}
+
 module.exports = {
     createToken,
     verifyToken,
-    showInsideToken
+    showInsideToken,
+    destroyToken
 };

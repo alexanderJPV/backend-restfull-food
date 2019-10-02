@@ -69,4 +69,9 @@ usuarioCtrl.account = async (req, res) => {
     }
 }
 
+usuarioCtrl.logout = async (req, res) => {
+    const data = await auth.destroyToken(req.token);
+    res.json(data);
+}
+
 module.exports = usuarioCtrl;

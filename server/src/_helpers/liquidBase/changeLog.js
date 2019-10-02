@@ -6,7 +6,7 @@ const Usuario = db.usuario;
 
 const dataUser = [
     {
-        id: 1,
+        // id: 1,
         nombres: 'User',
         apellidos: 'User user',
         userName: 'user1234',
@@ -16,7 +16,7 @@ const dataUser = [
         rol: ['USER']
     },
     {
-        id: 2,
+        // id: 2,
         nombres: 'Admin',
         apellidos: 'Admin Admin',
         userName: 'admin1234',
@@ -26,7 +26,7 @@ const dataUser = [
         rol: ['ADMIN']
     },
     {
-        id: 3,
+        // id: 3,
         nombres: 'System',
         apellidos: 'System System',
         userName: 'system1234',

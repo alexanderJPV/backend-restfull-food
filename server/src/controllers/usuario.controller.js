@@ -33,6 +33,8 @@ usuarioCtrl.findAll = (req, res) => {
 }
 
 usuarioCtrl.create = (req, res) => {
+    console.log('El resp ----> ', req.body);
+    // console.log('------------->>>>>>>>>>>>>>>>>>>>>>>>> ', req.file.path);
     Usuario.create(req.body).
         then((usuario) => {
             res.status(200).json(usuario);
