@@ -53,7 +53,7 @@ module.exports = (sequealize, Sequealize) => {
         type: {
             type: Sequealize.STRING(255)
         },
-        data: {
+        name: {
             type: Sequealize.STRING(255)
         },
         rol: {

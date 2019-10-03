@@ -33,9 +33,24 @@ usuarioCtrl.findAll = (req, res) => {
 }
 
 usuarioCtrl.create = (req, res) => {
-    console.log('El resp ----> ', req.body);
+    console.log('El resp ----> ', req.body.nombres);
     // console.log('------------->>>>>>>>>>>>>>>>>>>>>>>>> ', req.file.path);
-    Usuario.create(req.body).
+    const datas = Object.assign({}, req.body);
+    console.log('------->', datas);
+    const newUser = {
+        id: null,
+        nombres: datas.nombres,
+        apellidos: datas.apellidos,
+        email: datas.email,
+        userName: datas.userName,
+        password: '1232323',
+        role: ['USER'],
+        estado: true,
+        imagen: `http://localhost:3000/${req.file.path}`,
+        name: datas.name,
+        type: datas.type
+    }
+    Usuario.create(newUser).
         then((usuario) => {
             res.status(200).json(usuario);
         }).catch((err) => {
