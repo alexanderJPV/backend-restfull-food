@@ -4,7 +4,7 @@ const client = new pg.Client({
     user: 'postgres',
     host: 'localhost',
     database: 'restfullfood',
-    password: 'postgres',
+    password: '123',
     port: 5432,
 });
 
@@ -15,7 +15,7 @@ client.connect()
 const env = {
     database: 'restfullfood',
     username: 'postgres',
-    password: 'postgres',
+    password: '123',
     host: 'localhost',
     dialect: 'postgres',
     pool: {
