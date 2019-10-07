@@ -13,7 +13,8 @@ const dataUser = [
         email: 'user@localhost.com',
         password: '12345',
         estado: true,
-        rol: ['USER']
+        rol: ['ROL_CLIENTE'],
+        genero: 'MASCULINO'
     },
     {
         // id: 2,
@@ -23,7 +24,8 @@ const dataUser = [
         email: 'admin@localhost.com',
         password: '12345',
         estado: true,
-        rol: ['ADMIN']
+        rol: ['ROL_ADMIN'],
+        genero: 'MASCULINO'
     },
     {
         // id: 3,
@@ -33,7 +35,8 @@ const dataUser = [
         email: 'system@localhost.com',
         password: '12345',
         estado: true,
-        rol: ['SYSTEM']
+        rol: ['ROL_PROPIETARIO'],
+        genero: 'MASCULINO'
     }
 ];
 

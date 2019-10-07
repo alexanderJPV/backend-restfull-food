@@ -60,10 +60,16 @@ module.exports = (sequealize, Sequealize) => {
             type: Sequealize.ARRAY(Sequealize.STRING)
         },
         genero: {
-            type: Sequealize.ENUM('HOMBRE', 'MUJER')
+            type: Sequealize.ENUM('MASCULINO', 'FEMENINO')
         },
         estado: {
             type: Sequealize.BOOLEAN
+        },
+        fechaNacimiento: {
+            type: Sequealize.DATE
+        },
+        telefono: {
+            type: Sequealize.STRING
         },
         activate_key: {
             type: Sequealize.STRING

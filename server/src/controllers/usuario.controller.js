@@ -2,6 +2,7 @@
 
 const db = require('../../db');
 const control = require('../_helpers/pagination');
+const roles = require('../_helpers/role');
 const Usuario = db.usuario;
 
 const usuarioCtrl = {};
@@ -33,22 +34,22 @@ usuarioCtrl.findAll = (req, res) => {
 }
 
 usuarioCtrl.create = (req, res) => {
-    console.log('El resp ----> ', req.body.nombres);
-    // console.log('------------->>>>>>>>>>>>>>>>>>>>>>>>> ', req.file.path);
     const datas = Object.assign({}, req.body);
-    console.log('------->', datas);
     const newUser = {
         id: null,
         nombres: datas.nombres,
         apellidos: datas.apellidos,
         email: datas.email,
         userName: datas.userName,
-        password: '1232323',
-        role: ['USER'],
+        password: datas.password,
+        rol: [req.body.rol],
         estado: true,
         imagen: `http://localhost:3000/${req.file.path}`,
         name: datas.name,
-        type: datas.type
+        type: datas.type,
+        genero: datas.genero,
+        telefono: datas.telefono,
+        fechaNacimiento: datas.fechaNacimiento
     }
     Usuario.create(newUser).
         then((usuario) => {
@@ -59,10 +60,26 @@ usuarioCtrl.create = (req, res) => {
 }
 
 usuarioCtrl.update = (req, res) => {
-    const id = req.body.id;
-    Usuario.update(req.body, { where: { id: id } }).
-        then(() => {
-            res.status(200).json(req.body);
+    const datas = Object.assign({}, req.body);
+    const newUser = {
+        id: datas.id,
+        nombres: datas.nombres,
+        apellidos: datas.apellidos,
+        email: datas.email,
+        userName: datas.userName,
+        password: datas.password,
+        rol: [req.body.rol],
+        estado: true,
+        imagen: req.file ? `http://localhost:3000/${req.file.path}` : datas.imagen,
+        name: datas.name,
+        type: datas.type,
+        genero: datas.genero,
+        telefono: datas.telefono,
+        fechaNacimiento: datas.fechaNacimiento
+    }
+    Usuario.update(newUser, { where: { id: newUser.id } }).
+        then((usuario) => {
+            res.status(200).json(usuario);
         }).catch((err) => {
             res.status(500).json({ msg: 'error', details: err });
         });
@@ -141,6 +158,10 @@ usuarioCtrl.activateAccount = (req, res) => {
         }).catch((err) => {
             res.status(200).json({ msg: 'error', details: err });
         })
+}
+
+usuarioCtrl.roles = async (req, res) => {
+    await res.status(200).json(roles);
 }
 
 module.exports = usuarioCtrl;
