@@ -9,11 +9,12 @@ const Usuario = db.usuario;
 
 const usuarioCtrl = {};
 
-usuarioCtrl.signup = (req, res) => {
-    Usuario.findOne({ where: { email: req.body.email } }).
-        then((usuario) => {
-            res.status(400).json({ status: 400, msg: 'The account was created' });
-        }).catch(() => {
+usuarioCtrl.signup = async (req, res) => {
+    const data = await Usuario.findOne({ where: { email: req.body.email } });
+    try {
+        if (data !== null) {
+            res.status(400).json('El usuario ya esta registrado');
+        } else {
             bcrypt.hash(req.body.password, 10, function (err, hash) {
                 const refreshToken = cryptoRandomString({ length: 50, type: 'base64' });
                 const new_User = {
@@ -22,22 +23,25 @@ usuarioCtrl.signup = (req, res) => {
                     userName: req.body.userName,
                     email: req.body.email,
                     password: hash,
-                    rol: [role.ROLE_USER],
-                    estado: req.body.estado,
+                    rol: ['ROL_CLIENTE'],
+                    estado: false,
+                    genero: 'MASCULINO',
                     activate_key: refreshToken,
-                    status: false,
                 }
                 Usuario.create(new_User).
                     then((usuario) => {
                         const data = usuario.dataValues;
                         const url = 'http://localhost:4200/activate-account/';
-                        mail.sendMail('/html/activateAccount.html', 'Activar Cuenta', url + data.refreshToken, data);
+                        mail.sendMail('/templates/activateAccount.html', 'Activar Cuenta', url + data.refreshToken, data);
                         res.status(200).json({ status: 201, msg: 'created' });
                     }).catch((err) => {
                         res.status(500).json({ msg: 'error create user', details: err });
                     });
             });
-        });
+        }
+    } catch (error) {
+        res.status(500).json({ msg: 'error create user', details: err });
+    }
 }
 
 usuarioCtrl.signin = (req, res) => {

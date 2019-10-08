@@ -1,6 +1,7 @@
 'use strict'
 
 const db = require('../../db');
+const bcrypt = require('bcrypt');
 const control = require('../_helpers/pagination');
 const roles = require('../_helpers/role');
 const Usuario = db.usuario;
@@ -34,29 +35,31 @@ usuarioCtrl.findAll = (req, res) => {
 }
 
 usuarioCtrl.create = (req, res) => {
-    const datas = Object.assign({}, req.body);
-    const newUser = {
-        id: null,
-        nombres: datas.nombres,
-        apellidos: datas.apellidos,
-        email: datas.email,
-        userName: datas.userName,
-        password: datas.password,
-        rol: [req.body.rol],
-        estado: true,
-        imagen: `http://localhost:3000/${req.file.path}`,
-        name: datas.name,
-        type: datas.type,
-        genero: datas.genero,
-        telefono: datas.telefono,
-        fechaNacimiento: datas.fechaNacimiento
-    }
-    Usuario.create(newUser).
-        then((usuario) => {
-            res.status(200).json(usuario);
-        }).catch((err) => {
-            res.status(500).json({ msg: 'error', details: err });
-        });
+    bcrypt.hash(req.body.password, 10, function (err, hash) {
+        const datas = Object.assign({}, req.body);
+        const newUser = {
+            id: null,
+            nombres: datas.nombres,
+            apellidos: datas.apellidos,
+            email: datas.email,
+            userName: datas.userName,
+            password: hash,
+            rol: [req.body.rol],
+            estado: true,
+            imagen: `http://localhost:3000/${req.file.path}`,
+            name: datas.name,
+            type: datas.type,
+            genero: datas.genero,
+            telefono: datas.telefono,
+            fechaNacimiento: datas.fechaNacimiento
+        }
+        Usuario.create(newUser).
+            then((usuario) => {
+                res.status(200).json(usuario);
+            }).catch((err) => {
+                res.status(500).json({ msg: 'error', details: err });
+            });
+    });
 }
 
 usuarioCtrl.update = (req, res) => {
