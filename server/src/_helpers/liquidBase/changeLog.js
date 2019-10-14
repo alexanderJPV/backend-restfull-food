@@ -16,8 +16,8 @@ const dataUser = [
         rol: ['ROL_CLIENTE'],
         genero: 'MASCULINO',
         estado: true,
-        fechaNacimiento: new Date(1980, 6, 20),
-        telefono: '788855720'
+        fechaNacimiento:'02/02/2019',
+        telefono: '78855720'
     },
     {
         // id: 2,
@@ -30,8 +30,8 @@ const dataUser = [
         rol: ['ROL_ADMIN'],
         genero: 'MASCULINO',
         estado: true,
-        fechaNacimiento: new Date(1980, 6, 20),
-        telefono: '788855720'
+        fechaNacimiento:'02/02/2019',
+        telefono: '78855720'
     },
     {
         // id: 3,
@@ -44,8 +44,22 @@ const dataUser = [
         rol: ['ROL_PROPIETARIO'],
         genero: 'MASCULINO',
         estado: true,
-        fechaNacimiento: new Date(1980, 6, 20),
-        telefono: '788855720'
+        fechaNacimiento:'02/02/2019',
+        telefono: '78855720'
+    },
+    {
+        // id: 4,
+        nombres: 'Propietario',
+        apellidos: 'propietario',
+        userName: 'prop123',
+        email: 'system@localhost.com',
+        password: '12345',
+        estado: true,
+        rol: ['ROL_PROPIETARIO'],
+        genero: 'FEMENINO',
+        estado: true,
+        fechaNacimiento:'02/02/2019',
+        telefono: '78855720'
     }
 ];
 
