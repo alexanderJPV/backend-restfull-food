@@ -16,7 +16,7 @@ usuarioCtrl.signup = async (req, res) => {
             res.status(400).json('El usuario ya esta registrado');
         } else {
             bcrypt.hash(req.body.password, 10, function (err, hash) {
-                const refreshToken = cryptoRandomString({ length: 50, type: 'base64' });
+                const refreshToken = cryptoRandomString({ length: 50, characters: '1234567890' });
                 const new_User = {
                     nombres: req.body.nombres,
                     apellidos: req.body.apellidos,
@@ -31,8 +31,8 @@ usuarioCtrl.signup = async (req, res) => {
                 Usuario.create(new_User).
                     then((usuario) => {
                         const data = usuario.dataValues;
-                        const url = 'http://localhost:4200/activate-account/';
-                        mail.sendMail('/templates/activateAccount.html', 'Activar Cuenta', url + data.refreshToken, data);
+                        const url = 'http://localhost:4200/activate-account?key=' + refreshToken;
+                        mail.sendMail('/templates/activateAccount.html', 'Activar Cuenta', url, data);
                         res.status(200).json({ status: 201, msg: 'created' });
                     }).catch((err) => {
                         res.status(500).json({ msg: 'error create user', details: err });

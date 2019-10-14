@@ -10,12 +10,12 @@ const usuarioCtrl = {};
 
 usuarioCtrl.findAllRol = (req, res) => {
     const rol = req.params.rol;
-    Usuario.findAll({ where: { rol: [rol] }})
-    .then((usuario) => {
-        res.status(200).json(usuario);
-    }).catch((err) => {
-        res.status(300).json({ msg: 'error', details: err });
-    });
+    Usuario.findAll({ where: { rol: [rol] } })
+        .then((usuario) => {
+            res.status(200).json(usuario);
+        }).catch((err) => {
+            res.status(300).json({ msg: 'error', details: err });
+        });
 }
 
 usuarioCtrl.findAll = (req, res) => {
@@ -45,6 +45,11 @@ usuarioCtrl.findAll = (req, res) => {
 }
 
 usuarioCtrl.create = (req, res) => {
+    console.log('--------------------------------');
+    console.log('--------------------------------');
+    console.log(req.body);
+    console.log('--------------------------------');
+    console.log('--------------------------------');
     bcrypt.hash(req.body.password, 10, function (err, hash) {
         const datas = Object.assign({}, req.body);
         const newUser = {
@@ -155,21 +160,27 @@ usuarioCtrl.resetPasswordFinish = (req, res) => {
         });
 }
 
-usuarioCtrl.activateAccount = (req, res) => {
+usuarioCtrl.activateAccount = (req, res, next) => {
     const key = req.body.key;
     Usuario.findOne({ where: { activate_key: key } }).then(
         (usuario) => {
-            const data = usuario.dataValues;
-            data.status = true;
-            data.activate_key = null;
-            Usuario.update(data, { where: { id: data.id } }).then(() => {
-                res.status(200).json({ key: 'The account was successfuly' });
-            }).cath((err) => {
-                res.status(500).json({ msg: 'error', details: err });
-            })
-        }).catch((err) => {
-            res.status(200).json({ msg: 'error', details: err });
-        })
+            console.log('======================================');
+            console.log('======================================');
+            console.log(usuario.dataValues);
+            console.log('======================================');
+            console.log('======================================');
+            Usuario.update(usuario.dataValues, { where: { id: usuario.dataValues.id } }).then(() => {
+                console.log('----------------------------------');
+                res.status(200).send('hola');
+            }).cath((errOne) => {
+                console.log("---------- el rror 1-------------");
+                res.status(403).send({ msg: 'error', details: errOne });
+            });
+        }).catch((errTwo) => {
+            console.log("---------- el rror 2-------------");
+            res.status(500).send({ msg: 'error', details: errTwo });
+        });
+    return next();
 }
 
 usuarioCtrl.roles = async (req, res) => {

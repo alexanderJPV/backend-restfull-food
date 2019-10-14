@@ -25,6 +25,8 @@ router.put('/api/usuarios', auth.verifyToken, upload.single('imageUpload'), usua
 router.get('/api/usuarios/:id', auth.verifyToken, usuarioCtrl.findById);
 router.delete('/api/usuarios/:id', auth.verifyToken, usuarioCtrl.delete);
 router.get('/api/roles', auth.verifyToken, usuarioCtrl.roles);
+
+router.post('/api/activate-account', usuarioCtrl.activateAccount);
 router.post('/api/reset-password-init', usuarioCtrl.resetPasswordInit);
 router.post('/api/reset-password-finish', usuarioCtrl.resetPasswordFinish);
 
