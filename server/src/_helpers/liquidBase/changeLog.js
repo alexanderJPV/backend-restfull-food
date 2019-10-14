@@ -14,7 +14,10 @@ const dataUser = [
         password: '12345',
         estado: true,
         rol: ['ROL_CLIENTE'],
-        genero: 'MASCULINO'
+        genero: 'MASCULINO',
+        estado: true,
+        fechaNacimiento:'02/02/2019',
+        telefono: '788855720'
     },
     {
         // id: 2,
@@ -25,7 +28,10 @@ const dataUser = [
         password: '12345',
         estado: true,
         rol: ['ROL_ADMIN'],
-        genero: 'MASCULINO'
+        genero: 'MASCULINO',
+        estado: true,
+        fechaNacimiento:'02/02/2019',
+        telefono: '788855720'
     },
     {
         // id: 3,
@@ -36,7 +42,10 @@ const dataUser = [
         password: '12345',
         estado: true,
         rol: ['ROL_PROPIETARIO'],
-        genero: 'MASCULINO'
+        genero: 'MASCULINO',
+        estado: true,
+        fechaNacimiento:'02/02/2019',
+        telefono: '788855720'
     }
 ];
 

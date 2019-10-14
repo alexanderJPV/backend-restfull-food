@@ -8,6 +8,16 @@ const Usuario = db.usuario;
 
 const usuarioCtrl = {};
 
+usuarioCtrl.findAllRol = (req, res) => {
+    const rol = req.params.rol;
+    Usuario.findAll({ where: { rol: [rol] }})
+    .then((usuario) => {
+        res.status(200).json(usuario);
+    }).catch((err) => {
+        res.status(300).json({ msg: 'error', details: err });
+    });
+}
+
 usuarioCtrl.findAll = (req, res) => {
     const page = req.query.page ? parseInt(req.query.page) : 0;
     const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 10;
@@ -107,7 +117,6 @@ usuarioCtrl.delete = (req, res) => {
             res.status(300).json({ msg: 'error', details: err });
         });
 }
-
 
 usuarioCtrl.resetPasswordInit = (req, res) => {
     const email = req.body.email;
