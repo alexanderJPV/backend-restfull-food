@@ -66,7 +66,7 @@ module.exports = (sequealize, Sequealize) => {
             type: Sequealize.BOOLEAN
         },
         fechaNacimiento: {
-            type: Sequealize.DATE
+            type: Sequealize.DATEONLY()
         },
         telefono: {
             type: Sequealize.STRING

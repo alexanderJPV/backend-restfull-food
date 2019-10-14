@@ -16,7 +16,7 @@ const dataUser = [
         rol: ['ROL_CLIENTE'],
         genero: 'MASCULINO',
         estado: true,
-        fechaNacimiento:'02/02/2019',
+        fechaNacimiento: new Date(1980, 6, 20),
         telefono: '788855720'
     },
     {
@@ -30,7 +30,7 @@ const dataUser = [
         rol: ['ROL_ADMIN'],
         genero: 'MASCULINO',
         estado: true,
-        fechaNacimiento:'02/02/2019',
+        fechaNacimiento: new Date(1980, 6, 20),
         telefono: '788855720'
     },
     {
@@ -44,7 +44,7 @@ const dataUser = [
         rol: ['ROL_PROPIETARIO'],
         genero: 'MASCULINO',
         estado: true,
-        fechaNacimiento:'02/02/2019',
+        fechaNacimiento: new Date(1980, 6, 20),
         telefono: '788855720'
     }
 ];
