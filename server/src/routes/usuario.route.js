@@ -19,13 +19,12 @@ const upload = multer({ storage: storage });
 const usuarioCtrl = require('../controllers/usuario.controller');
 
 router.get('/api/usuarios', auth.verifyToken, usuarioCtrl.findAll);
-router.get('/api/usuarios/roles/:rol', usuarioCtrl.findAllRol);
+router.get('/api/usuarios/roles/:rol', auth.verifyToken, usuarioCtrl.findAllRol);
 router.post('/api/usuarios', auth.verifyToken, upload.single('imageUpload'), usuarioCtrl.create);
 router.put('/api/usuarios', auth.verifyToken, upload.single('imageUpload'), usuarioCtrl.update);
 router.get('/api/usuarios/:id', auth.verifyToken, usuarioCtrl.findById);
 router.delete('/api/usuarios/:id', auth.verifyToken, usuarioCtrl.delete);
 router.get('/api/roles', auth.verifyToken, usuarioCtrl.roles);
-
 router.post('/api/activate-account', usuarioCtrl.activateAccount);
 router.post('/api/reset-password-init', usuarioCtrl.resetPasswordInit);
 router.post('/api/reset-password-finish', usuarioCtrl.resetPasswordFinish);

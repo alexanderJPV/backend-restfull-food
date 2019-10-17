@@ -45,13 +45,17 @@ usuarioCtrl.findAll = (req, res) => {
 }
 
 usuarioCtrl.create = (req, res) => {
-    console.log('--------------------------------');
-    console.log('--------------------------------');
+    console.log('---------------------------------------------------');
+    console.log('---------------------------------------------------');
     console.log(req.body);
-    console.log('--------------------------------');
-    console.log('--------------------------------');
+    console.log('---------------------------------------------------');
+    console.log('---------------------------------------------------');
     bcrypt.hash(req.body.password, 10, function (err, hash) {
         const datas = Object.assign({}, req.body);
+        const urimage=``;
+        if(req.body.imagen!=null){
+            urimage=`http://localhost:3000/${req.file.path}`;
+        }
         const newUser = {
             id: null,
             nombres: datas.nombres,
@@ -60,14 +64,14 @@ usuarioCtrl.create = (req, res) => {
             userName: datas.userName,
             password: hash,
             rol: [req.body.rol],
-            estado: true,
-            imagen: `http://localhost:3000/${req.file.path}`,
+            estado: datas.estado,
+            imagen: urimage,
             name: datas.name,
             type: datas.type,
             genero: datas.genero,
             telefono: datas.telefono,
             fechaNacimiento: datas.fechaNacimiento
-        }
+        };
         Usuario.create(newUser).
             then((usuario) => {
                 res.status(200).json(usuario);
@@ -87,7 +91,7 @@ usuarioCtrl.update = (req, res) => {
         userName: datas.userName,
         password: datas.password,
         rol: [req.body.rol],
-        estado: true,
+        estado: datas.estado,
         imagen: req.file ? `http://localhost:3000/${req.file.path}` : datas.imagen,
         name: datas.name,
         type: datas.type,
