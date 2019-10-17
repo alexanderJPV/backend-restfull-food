@@ -23,9 +23,23 @@ usuarioCtrl.findAll = (req, res) => {
     const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 10;
     const offset = page * pageSize;
     const limit = offset + pageSize;
+    // 0 * 10 = 0
+    // 0 + 10 = 10
+    // 1 * 10 = 10
+    // 10 + 10 = 20
+    // 2 * 10 = 20
+    // 20 + 10 = 30
     const value = req.query.sort ? req.query.sort : 'id';
     const type = req.query.type ? req.query.type.toUpperCase() : 'ASC';
-    Usuario.findAndCountAll({ offset, limit, order: [[value, type]] }).
+    console.log('--------------------------------------------------------------');
+    console.log('--------------------------------------------------------------');
+    console.log('Page --> ', page);
+    console.log('PageSize --> ', pageSize);
+    console.log('Offset --> ', offset);
+    console.log('Limit --> ', limit);
+    console.log('--------------------------------------------------------------');
+    console.log('--------------------------------------------------------------');
+    Usuario.findAndCountAll({ offset: parseInt(offset), limit: parseInt(pageSize), order: [[value, type]] }).
         then((usuario) => {
             const pages = Math.ceil(usuario.count / limit);
             const elements = usuario.count;
