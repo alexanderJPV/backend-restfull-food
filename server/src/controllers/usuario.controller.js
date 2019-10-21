@@ -9,11 +9,27 @@ const Usuario = db.usuario;
 const usuarioCtrl = {};
 
 usuarioCtrl.findAllRol = (req, res) => {
-    const rol = req.params.rol;
-    Usuario.findAll({ where: { rol: [rol] } })
+    const rol = req.query.rols;
+    const page = req.query.page ? parseInt(req.query.page) : 0;
+    const pageSize = req.query.pageSize ?  parseInt(req.query.pageSize) : 10;
+    const offset = page * pageSize;
+    const limit = offset + pageSize;
+    const value = req.query.sort ? req.query.sort : 'id';
+    const type = req.query.type ? req.query.type.toUpperCase(): 'ASC';
+    console.log("=======================>"+rol);
+    Usuario.findAndCountAll({ offset: parseInt(offset), limit: parseInt(pageSize), order:[[value,type]] , where: { rol: [rol] } })
         .then((usuario) => {
-            res.status(200).json(usuario);
+            const pages = Math.ceil(usuario.count / limit);
+            const elements = usuario.count;
+            res.status(200).json({
+                elements,
+                page,
+                pageSize,
+                pages,
+                usuario
+            });
         }).catch((err) => {
+            console.log(err);
             res.status(300).json({ msg: 'error', details: err });
         });
 }
@@ -31,14 +47,12 @@ usuarioCtrl.findAll = (req, res) => {
     // 20 + 10 = 30
     const value = req.query.sort ? req.query.sort : 'id';
     const type = req.query.type ? req.query.type.toUpperCase() : 'ASC';
-    console.log('--------------------------------------------------------------');
-    console.log('--------------------------------------------------------------');
-    console.log('Page --> ', page);
-    console.log('PageSize --> ', pageSize);
-    console.log('Offset --> ', offset);
-    console.log('Limit --> ', limit);
-    console.log('--------------------------------------------------------------');
-    console.log('--------------------------------------------------------------');
+    // console.log('--------------------------------------------------------------');
+    // console.log('Page --> ', page);
+    // console.log('PageSize --> ', pageSize);
+    // console.log('Offset --> ', offset);
+    // console.log('Limit --> ', limit);
+    // console.log('--------------------------------------------------------------');
     Usuario.findAndCountAll({ offset: parseInt(offset), limit: parseInt(pageSize), order: [[value, type]] }).
         then((usuario) => {
             const pages = Math.ceil(usuario.count / limit);
@@ -59,11 +73,11 @@ usuarioCtrl.findAll = (req, res) => {
 }
 
 usuarioCtrl.create = (req, res) => {
-    console.log('---------------------------------------------------');
+   /*  console.log('---------------------------------------------------');
     console.log('---------------------------------------------------');
     console.log(req.body);
     console.log('---------------------------------------------------');
-    console.log('---------------------------------------------------');
+    console.log('---------------------------------------------------'); */
     bcrypt.hash(req.body.password, 10, function (err, hash) {
         const datas = Object.assign({}, req.body);
         const urimage=``;
@@ -90,7 +104,16 @@ usuarioCtrl.create = (req, res) => {
             then((usuario) => {
                 res.status(200).json(usuario);
             }).catch((err) => {
-                res.status(500).json({ msg: 'error', details: err });
+                console.log('---------------------------------------------------');
+                const dataError = Object.assign({}, err.errors['0']);
+                // const message = data.message;
+                // const val = Object.assign({}, err);
+                // console.log(val.errors[0].message);
+                res.status(500).json(
+                    {
+                        msg: 'error',
+                        details: dataError
+                    });
             });
     });
 }

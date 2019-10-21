@@ -48,7 +48,6 @@ db.usuario = require('../server/src/models/usuario.model')(sequelize, Sequelize)
 db.cocinero = require('../server/src/models/cocinero.model')(sequelize, Sequelize);
 db.publicidad = require('../server/src/models/publicidad.model')(sequelize, Sequelize);
 db.sucursal = require('../server/src/models/sucursal.model')(sequelize, Sequelize);
-
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 

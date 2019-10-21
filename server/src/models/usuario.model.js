@@ -10,11 +10,14 @@ module.exports = (sequealize, Sequealize) => {
         },
         userName: {
             type: Sequealize.STRING,
-            unique: true,
+            unique: {
+                args: true,
+                msg: 'username ya existe'
+            },
             allowNull: false,
             validate: {
                 len: {
-                    args: [4, 100],
+                    args: [3, 100],
                     msg: 'Porfavor el userName tinene que tener mas de 4 caracteres y menos de 100'
                 }
             }
@@ -23,7 +26,7 @@ module.exports = (sequealize, Sequealize) => {
             type: Sequealize.STRING,
             unique: {
                 args: true,
-                msg: 'Email-id required'
+                msg: 'Email ya existe'
             },
             allowNull: false,
             validate: {
