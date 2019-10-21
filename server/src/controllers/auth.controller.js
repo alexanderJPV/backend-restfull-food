@@ -8,7 +8,7 @@ const db = require('../../db');
 const Usuario = db.usuario;
 
 const usuarioCtrl = {};
-
+//register
 usuarioCtrl.signup = async (req, res) => {
     const data = await Usuario.findOne({ where: { email: req.body.email } });
     try {
@@ -43,7 +43,7 @@ usuarioCtrl.signup = async (req, res) => {
         res.status(500).json({ msg: 'error create user', details: err });
     }
 }
-
+// login
 usuarioCtrl.signin = (req, res) => {
     Usuario.findOne({ where: { email: req.body.email } }).then((usuario) => {
         if (!usuario.dataValues.estado) {
@@ -65,7 +65,10 @@ usuarioCtrl.signin = (req, res) => {
             // });
         }
     }).catch((err) => {
-        res.status(500).send({ msg: 'error', details: err + 'Email incorrect' });
+        res.status(500).send(
+            { msg: 'error',
+              details: 'Email o Password incorrecto'
+            });
     });
 }
 
