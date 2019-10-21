@@ -5,29 +5,47 @@ const bcrypt = require('bcrypt');
 const control = require('../_helpers/pagination');
 const roles = require('../_helpers/role');
 const Usuario = db.usuario;
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op
 
 const usuarioCtrl = {};
 
 usuarioCtrl.findAllRol = (req, res) => {
-    const rol = req.query.rols;
+    const rol = req.query.rol ? req.query.rol : '';
+    const keyword = req.query.keyword ? req.query.keyword.toUpperCase() : '';
     const page = req.query.page ? parseInt(req.query.page) : 0;
-    const pageSize = req.query.pageSize ?  parseInt(req.query.pageSize) : 10;
+    const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 10;
     const offset = page * pageSize;
     const limit = offset + pageSize;
     const value = req.query.sort ? req.query.sort : 'id';
-    const type = req.query.type ? req.query.type.toUpperCase(): 'ASC';
-    console.log("=======================>"+rol);
-    Usuario.findAndCountAll({ offset: parseInt(offset), limit: parseInt(pageSize), order:[[value,type]] , where: { rol: [rol] } })
+    const type = req.query.type ? req.query.type.toUpperCase() : 'ASC';
+    // const data = Sequelize.where(Sequelize.fn('UPPER', Sequelize.col('nombres')), 'like', '%' + keyword + '%');
+    let searchByRoleOrKeyword = Sequelize.literal(`"usuario"."id" is not null`);
+    let queryOne = `AND UPPER("nombres") like '%${keyword}%'`;
+    if (keyword && rol) {
+        searchByRoleOrKeyword = Sequelize.literal(`"usuario"."rol" = ARRAY['${rol}']::VARCHAR(255)[] ${queryOne}`);
+    }
+    if (keyword && !rol) {
+        const queryOne = `AND UPPER("nombres") like '%${keyword}%'`;
+        searchByRoleOrKeyword = Sequelize.literal(`UPPER("nombres") like '%${keyword}%'`);
+    }
+    if (rol && !keyword) {
+        const queryOne = `AND UPPER("nombres") like '%${keyword}%'`;
+        searchByRoleOrKeyword = Sequelize.literal(`"usuario"."rol" = ARRAY['${rol}']::VARCHAR(255)[]`);
+    }
+    Usuario.findAndCountAll({ offset: parseInt(offset), limit: parseInt(pageSize), order: [[value, type]], where: { searchByRoleOrKeyword } })
         .then((usuario) => {
             const pages = Math.ceil(usuario.count / limit);
             const elements = usuario.count;
-            res.status(200).json({
-                elements,
-                page,
-                pageSize,
-                pages,
-                usuario
-            });
+            res.status(200).json(
+                {
+                    elements,
+                    page,
+                    pageSize,
+                    pages,
+                    usuario,
+                }
+            );
         }).catch((err) => {
             console.log(err);
             res.status(300).json({ msg: 'error', details: err });
@@ -39,20 +57,8 @@ usuarioCtrl.findAll = (req, res) => {
     const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 10;
     const offset = page * pageSize;
     const limit = offset + pageSize;
-    // 0 * 10 = 0
-    // 0 + 10 = 10
-    // 1 * 10 = 10
-    // 10 + 10 = 20
-    // 2 * 10 = 20
-    // 20 + 10 = 30
     const value = req.query.sort ? req.query.sort : 'id';
     const type = req.query.type ? req.query.type.toUpperCase() : 'ASC';
-    // console.log('--------------------------------------------------------------');
-    // console.log('Page --> ', page);
-    // console.log('PageSize --> ', pageSize);
-    // console.log('Offset --> ', offset);
-    // console.log('Limit --> ', limit);
-    // console.log('--------------------------------------------------------------');
     Usuario.findAndCountAll({ offset: parseInt(offset), limit: parseInt(pageSize), order: [[value, type]] }).
         then((usuario) => {
             const pages = Math.ceil(usuario.count / limit);
@@ -73,16 +79,16 @@ usuarioCtrl.findAll = (req, res) => {
 }
 
 usuarioCtrl.create = (req, res) => {
-   /*  console.log('---------------------------------------------------');
-    console.log('---------------------------------------------------');
-    console.log(req.body);
-    console.log('---------------------------------------------------');
-    console.log('---------------------------------------------------'); */
+    /*  console.log('---------------------------------------------------');
+     console.log('---------------------------------------------------');
+     console.log(req.body);
+     console.log('---------------------------------------------------');
+     console.log('---------------------------------------------------'); */
     bcrypt.hash(req.body.password, 10, function (err, hash) {
         const datas = Object.assign({}, req.body);
-        const urimage=``;
-        if(req.body.imagen!=null){
-            urimage=`http://localhost:3000/${req.file.path}`;
+        const urimage = ``;
+        if (req.body.imagen != null) {
+            urimage = `http://localhost:3000/${req.file.path}`;
         }
         const newUser = {
             id: null,
@@ -120,7 +126,45 @@ usuarioCtrl.create = (req, res) => {
 
 usuarioCtrl.update = (req, res) => {
     const datas = Object.assign({}, req.body);
+    const urimage = ``;
+    if (req.body.imagen != null) {
+        urimage = `http://localhost:3000/${req.file.path}`;
+    }
     const newUser = {
+        id: null,
+        nombres: datas.nombres,
+        apellidos: datas.apellidos,
+        email: datas.email,
+        userName: datas.userName,
+        password: hash,
+        rol: [req.body.rol],
+        estado: datas.estado,
+        imagen: urimage,
+        name: datas.name,
+        type: datas.type,
+        genero: datas.genero,
+        telefono: datas.telefono,
+        fechaNacimiento: datas.fechaNacimiento
+    };
+    Usuario.create(newUser).
+        then((usuario) => {
+            res.status(200).json(usuario);
+        }).catch((err) => {
+            const data = Object.assign({}, err.errors['0']);
+            console.log('Este es el Error ---------------------- --------------> ', data);
+            res.status(500).json({ msg: 'error', details: err });
+        });
+    // });
+}
+
+usuarioCtrl.update = async (req, res) => {
+    const datas = await Object.assign({}, req.body);
+    console.log('---------------------------------------------------');
+    console.log('---------------------------------------------------');
+    console.log();
+    console.log('---------------------------------------------------');
+    console.log('---------------------------------------------------');
+    const newUser = await {
         id: datas.id,
         nombres: datas.nombres,
         apellidos: datas.apellidos,
@@ -136,7 +180,7 @@ usuarioCtrl.update = (req, res) => {
         telefono: datas.telefono,
         fechaNacimiento: datas.fechaNacimiento
     }
-    Usuario.update(newUser, { where: { id: newUser.id } }).
+    await Usuario.update(newUser, { where: { id: newUser.id } }).
         then((usuario) => {
             res.status(200).json(usuario);
         }).catch((err) => {
@@ -208,6 +252,7 @@ usuarioCtrl.activateAccount = (req, res, next) => {
             console.log('======================================');
             console.log('======================================');
             console.log(usuario.dataValues);
+            usuario.dataValues.estado = true;
             console.log('======================================');
             console.log('======================================');
             Usuario.update(usuario.dataValues, { where: { id: usuario.dataValues.id } }).then(() => {

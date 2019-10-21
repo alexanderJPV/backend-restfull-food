@@ -165,9 +165,9 @@ const dataUser = [
 
 exports.initialDataUser = function () {
     dataUser.forEach(usuario => {
-        bcrypt.hash(usuario.password, 10, function (err, hash) {
-            usuario.password = hash;
-            Usuario.create(usuario);
-        });
+        // bcrypt.hash(usuario.password, 10, function (err, hash) {
+        usuario.password = bcrypt.hashSync(usuario.password, 10);
+        Usuario.create(usuario);
+        // });
     });
 }
