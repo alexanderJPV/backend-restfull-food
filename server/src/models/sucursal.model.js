@@ -14,7 +14,7 @@ module.exports = (sequealize, Sequealize) => {
         tipo:{
             type: Sequealize.ARRAY(Sequealize.STRING)
         },
-        //campos imagen
+        //--------------------campos imagen
         imagen: {
             type: Sequealize.STRING(255)
         },
@@ -24,24 +24,27 @@ module.exports = (sequealize, Sequealize) => {
         name: {
             type: Sequealize.STRING(255)
         },
-        //fin campos imagen
-        hora_inicio: {
+        nit: {
+            type: Sequealize.INTEGER
+        },
+        //---------------------fin campos imagen
+        hora_apertura: {
             type: Sequealize.STRING
         },
-        hora_fin: {
+        hora_cierre: {
             type: Sequealize.STRING
         },
         dias: {
             type: Sequealize.ARRAY(Sequealize.STRING)
+        },
+        direccion: {
+            type: Sequealize.STRING
         },
         latitud: {
             type: Sequealize.DOUBLE
         },
         longitud: {
             type: Sequealize.DOUBLE
-        },
-        direccion: {
-            type: Sequealize.STRING
         }
     });
     return sucursal;

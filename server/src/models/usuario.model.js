@@ -18,7 +18,7 @@ module.exports = (sequealize, Sequealize) => {
             validate: {
                 len: {
                     args: [3, 100],
-                    msg: 'Porfavor el userName tinene que tener mas de 4 caracteres y menos de 100'
+                    msg: 'Porfavor el userName tinene que tener mas de 3 caracteres y menos de 100'
                 }
             }
         },
