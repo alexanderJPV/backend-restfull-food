@@ -6,10 +6,11 @@ const db = require('./db');
 const data = require('./src/_helpers/liquidBase/changeLog');
 
 // reset database.
-// db.sequelize.sync({ force: true }).then(() => {
-//     console.log('Drop and resync with { force: true }');
-//     data.initialDataUser();
-// });
+db.sequelize.sync({ force: true }).then(() => {
+    console.log('Drop and resync with { force: true }');
+    data.initialDataUser();
+    data.initialDataSucursal();
+});
 
 app.set('port', process.env.PORT || 3000);
 

@@ -32,7 +32,6 @@ const sequelize = new Sequelize(env.database, env.username, env.password, {
     host: env.host,
     dialect: env.dialect,
     operatorsAliases: false,
-
     pool: {
         max: env.max,
         min: env.pool.min,
@@ -45,16 +44,17 @@ const db = {};
 
 // create db
 db.usuario = require('../server/src/models/usuario.model')(sequelize, Sequelize);
+db.sucursal = require('../server/src/models/sucursal.model')(sequelize, Sequelize);
 db.califica = require('../server/src/models/califica.model')(sequelize, Sequelize);
 db.visita = require('../server/src/models/visita.model')(sequelize, Sequelize);
-db.sucursal = require('../server/src/models/sucursal.model')(sequelize, Sequelize);
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 // relationship (usuario <-> usuario_sucursal)
 db.usuario.hasMany(db.sucursal, { constraints: false });
 db.sucursal.belongsToMany(db.usuario, {
+    constraints: false,
     through: 'usuario_sucursal',
-    constraints: false
+    onDelete: 'CASCADE'
 });
 // relatinship
 

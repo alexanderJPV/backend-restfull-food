@@ -3,7 +3,7 @@
 const bcrypt = require('bcrypt');
 const db = require('../../../db');
 const Usuario = db.usuario;
-
+const Sucursal = db.sucursal;
 const dataUser = [
     {
         // id: 1,
@@ -161,7 +161,24 @@ const dataUser = [
     }
 ];
 
-// Add user
+// Add sucursal
+
+const dataSucursal = [
+    {
+        razon_social: 'Nikis',
+        telefono: '22334455',
+        descripcion: 'Restaurante familiar para todo tipo de clientes y edades',
+        tipo: ['Comida nacional'],
+        nit: 123456,
+        hora_apertura: "09:00 am",
+        hora_cierre: "05:00 pm",
+        dias: ['lunes','martes'],
+        direccion: 'Av. satelite #100',
+        latitud: 0.12309,
+        longitud: 0.43122,
+        usuarioId: 1
+    }
+];
 
 exports.initialDataUser = function () {
     dataUser.forEach(usuario => {
@@ -169,5 +186,11 @@ exports.initialDataUser = function () {
         usuario.password = bcrypt.hashSync(usuario.password, 10);
         Usuario.create(usuario);
         // });
+    });
+}
+
+exports.initialDataSucursal = function () {
+    dataSucursal.forEach(sucursal => {
+        Sucursal.create(sucursal);
     });
 }
