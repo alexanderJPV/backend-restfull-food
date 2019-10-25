@@ -4,7 +4,7 @@ const client = new pg.Client({
     user: 'postgres',
     host: 'localhost',
     database: 'restfullfood',
-    password: '123',
+    password: 'postgres',
     port: 5432,
 });
 
@@ -15,7 +15,7 @@ client.connect()
 const env = {
     database: 'restfullfood',
     username: 'postgres',
-    password: '123',
+    password: 'postgres',
     host: 'localhost',
     dialect: 'postgres',
     pool: {
@@ -42,22 +42,23 @@ const sequelize = new Sequelize(env.database, env.username, env.password, {
 
 const db = {};
 
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
 // create db
 db.usuario = require('../server/src/models/usuario.model')(sequelize, Sequelize);
 db.sucursal = require('../server/src/models/sucursal.model')(sequelize, Sequelize);
+db.usuario_scursal = require('../server/src/models/usuario_sucursal.model')(sequelize, Sequelize);
 // db.califica = require('../server/src/models/califica.model')(sequelize, Sequelize);
 // db.visita = require('../server/src/models/visita.model')(sequelize, Sequelize);
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
 // --------------------------- relationship (usuario <-> usuario_sucursal)
-db.usuario.hasMany(db.sucursal, { constraints: false });
-
-db.sucursal.belongsTo(db.usuario, { constraints: false });
+db.usuario.belongsToMany(db.sucursal, { through: db.usuario_scursal, onDelete: 'CASCADE' });
+db.sucursal.belongsToMany(db.usuario, { through: db.usuario_scursal, onDelete: 'CASCADE' });
 // db.sucursal.belongsToMany(db.usuario, {
 //     constraints: false,
 //     through: 'usuario_sucursal'
-    // ,
-    // onDelete: 'CASCADE'
+// ,
+// onDelete: 'CASCADE'
 // });
 // relatinship
 
