@@ -4,13 +4,39 @@ const cors = require('cors');
 const app = express();
 const db = require('./db');
 const data = require('./src/_helpers/liquidBase/changeLog');
-
+const Usuario = db.usuario;
+const Sucursal = db.sucursal;
 // reset database.
-db.sequelize.sync({ force: true }).then(() => {
-    console.log('Drop and resync with { force: true }');
-    data.initialDataUser();
-    data.initialDataSucursal();
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//     console.log('Drop and resync with { force: true }');
+//     data.initialDataUser();
+//     data.initialDataSucursal();
+// });
+
+db.sequelize.sync({ force: true })
+    .then(() => {
+        data.initialDataUser();
+        data.initialDataSucursal();
+    });
+
+// Usuario.findOne({ where: { id: '1' } })
+//     .then( usuario => {
+//         console.log('---------------------------------------------------------**********************');
+//         // console.log(usuario);
+//     }).catch((err) => {
+//         console.log('errorrrrrrrrrrrrrrrrrrrr')});
+
+Sucursal.findOne({ where: { id: '1' } })
+        .then( sucursal => {
+            console.log('---------------------------------------------------------**********************');
+            console.log(sucursal);
+        }).then( sucursal => {
+            console.log('---------------------------------------------------------**********************');
+            console.log(sucursal);
+        }).catch((err) => {
+            console.log('errorrrrrrrrrrrrrrrrrrrr')});
+
+
 
 app.set('port', process.env.PORT || 3000);
 

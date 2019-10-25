@@ -45,17 +45,20 @@ const db = {};
 // create db
 db.usuario = require('../server/src/models/usuario.model')(sequelize, Sequelize);
 db.sucursal = require('../server/src/models/sucursal.model')(sequelize, Sequelize);
-db.califica = require('../server/src/models/califica.model')(sequelize, Sequelize);
-db.visita = require('../server/src/models/visita.model')(sequelize, Sequelize);
+// db.califica = require('../server/src/models/califica.model')(sequelize, Sequelize);
+// db.visita = require('../server/src/models/visita.model')(sequelize, Sequelize);
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-// relationship (usuario <-> usuario_sucursal)
+// --------------------------- relationship (usuario <-> usuario_sucursal)
 db.usuario.hasMany(db.sucursal, { constraints: false });
-db.sucursal.belongsToMany(db.usuario, {
-    constraints: false,
-    through: 'usuario_sucursal',
-    onDelete: 'CASCADE'
-});
+
+db.sucursal.belongsTo(db.usuario, { constraints: false });
+// db.sucursal.belongsToMany(db.usuario, {
+//     constraints: false,
+//     through: 'usuario_sucursal'
+    // ,
+    // onDelete: 'CASCADE'
+// });
 // relatinship
 
 module.exports = db;
