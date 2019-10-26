@@ -4,6 +4,8 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const auth = require('../services/auth.service');
+const roleRequired = require('../_helpers/roleRequired');
+const attachCurrentUser = require('../_helpers/attachCurrentUser');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -18,7 +20,7 @@ const upload = multer({ storage: storage });
 
 const usuarioCtrl = require('../controllers/usuario.controller');
 
-router.get('/api/usuarios', auth.verifyToken, usuarioCtrl.findAll);
+router.get('/api/usuarios', auth.verifyToken, attachCurrentUser, roleRequired('ROL_CLIENTE'), usuarioCtrl.findAll);
 router.get('/api/usuarios/roles', auth.verifyToken, usuarioCtrl.findAllRol);
 router.post('/api/usuarios', auth.verifyToken, upload.single('imageUpload'), usuarioCtrl.create);
 router.put('/api/usuarios', auth.verifyToken, upload.single('imageUpload'), usuarioCtrl.update);
