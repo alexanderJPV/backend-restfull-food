@@ -4,7 +4,7 @@ const client = new pg.Client({
     user: 'postgres',
     host: 'localhost',
     database: 'restfullfood',
-    password: 'postgres',
+    password: '123',
     port: 5432,
 });
 
@@ -15,7 +15,7 @@ client.connect()
 const env = {
     database: 'restfullfood',
     username: 'postgres',
-    password: 'postgres',
+    password: '123',
     host: 'localhost',
     dialect: 'postgres',
     pool: {
@@ -54,12 +54,5 @@ db.usuario_scursal = require('../server/src/models/usuario_sucursal.model')(sequ
 // --------------------------- relationship (usuario <-> usuario_sucursal)
 db.usuario.belongsToMany(db.sucursal, { through: db.usuario_scursal, onDelete: 'CASCADE' });
 db.sucursal.belongsToMany(db.usuario, { through: db.usuario_scursal, onDelete: 'CASCADE' });
-// db.sucursal.belongsToMany(db.usuario, {
-//     constraints: false,
-//     through: 'usuario_sucursal'
-// ,
-// onDelete: 'CASCADE'
-// });
-// relatinship
 
 module.exports = db;

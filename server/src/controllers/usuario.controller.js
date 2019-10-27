@@ -124,39 +124,6 @@ usuarioCtrl.create = (req, res) => {
     });
 }
 
-usuarioCtrl.update = (req, res) => {
-    const datas = Object.assign({}, req.body);
-    const urimage = ``;
-    if (req.body.imagen != null) {
-        urimage = `http://localhost:3000/${req.file.path}`;
-    }
-    const newUser = {
-        id: null,
-        nombres: datas.nombres,
-        apellidos: datas.apellidos,
-        email: datas.email,
-        userName: datas.userName,
-        password: hash,
-        rol: [req.body.rol],
-        estado: datas.estado,
-        imagen: urimage,
-        name: datas.name,
-        type: datas.type,
-        genero: datas.genero,
-        telefono: datas.telefono,
-        fechaNacimiento: datas.fechaNacimiento
-    };
-    Usuario.create(newUser).
-        then((usuario) => {
-            res.status(200).json(usuario);
-        }).catch((err) => {
-            const data = Object.assign({}, err.errors['0']);
-            console.log('Este es el Error ---------------------- --------------> ', data);
-            res.status(500).json({ msg: 'error', details: err });
-        });
-    // });
-}
-
 usuarioCtrl.update = async (req, res) => {
     const datas = await Object.assign({}, req.body);
     console.log('---------------------------------------------------');

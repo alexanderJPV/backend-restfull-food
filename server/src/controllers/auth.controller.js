@@ -10,10 +10,10 @@ const Usuario = db.usuario;
 const usuarioCtrl = {};
 //register
 usuarioCtrl.signup = async (req, res) => {
-    const data = await Usuario.findOne({ where: { email: req.body.email } });
+    const data = await Usuario.findOne({ where: { userName:req.body.userName, email: req.body.email } });
     try {
         if (data !== null) {
-            res.status(400).json('El usuario ya esta registrado');
+            res.status(400).json('Usuario ya existe');
         } else {
             // bcrypt.hash(req.body.password, 10, function (err, hash) {
             const refreshToken = cryptoRandomString({ length: 50, characters: '1234567890abcdefghijklmnopqrstuvwxyz' });
@@ -35,12 +35,21 @@ usuarioCtrl.signup = async (req, res) => {
                     mail.sendMail('/templates/activateAccount.html', 'Activar Cuenta', url, data);
                     res.status(200).json({ status: 201, msg: 'created' });
                 }).catch((err) => {
-                    res.status(500).json({ msg: 'error create user', details: err });
+                    const dataError = Object.assign({}, err.errors['0']);
+                    res.status(500).json(
+                        {
+                            msg: 'error create user',
+                            details: dataError
+                        });
                 });
             // });
         }
     } catch (error) {
-        res.status(500).json({ msg: 'error create user', details: err });
+        const dataError = Object.assign({}, err.errors['0']);
+        res.status(500).json(
+            {
+                msg: 'error create user',
+                details: dataError });
     }
 }
 // login

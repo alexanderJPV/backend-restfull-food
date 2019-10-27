@@ -24,10 +24,10 @@ module.exports = (sequealize, Sequealize) => {
         name: {
             type: Sequealize.STRING(255)
         },
+        //---------------------fin campos imagen
         nit: {
             type: Sequealize.INTEGER
         },
-        //---------------------fin campos imagen
         hora_apertura: {
             type: Sequealize.STRING
         },
@@ -38,7 +38,11 @@ module.exports = (sequealize, Sequealize) => {
             type: Sequealize.ARRAY(Sequealize.STRING)
         },
         direccion: {
-            type: Sequealize.STRING
+            type: Sequealize.STRING,
+            unique: {
+                args: true,
+                msg: 'direccion ya existe'
+            },
         },
         latitud: {
             type: Sequealize.DOUBLE

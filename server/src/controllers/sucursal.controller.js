@@ -57,8 +57,8 @@ sucursalCtrl.update = (req, res) => {
 sucursalCtrl.findById = (req, res) => {
     const id = req.params.id;
     Sucursal.findOne({ where: { id: id } }).
-        then((usuario) => {
-            res.status(200).json(usuario);
+        then((sucursal) => {
+            res.status(200).json(sucursal);
         }).catch((err) => {
             res.status(300).json({ msg: 'error', details: err });
         });

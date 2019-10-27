@@ -176,8 +176,7 @@ const dataSucursal = [
         dias: ['lunes','martes'],
         direccion: 'Av. satelite #100',
         latitud: 0.12309,
-        longitud: 0.43122,
-        usuarioId: 1
+        longitud: 0.43122
     }
 ];
 
