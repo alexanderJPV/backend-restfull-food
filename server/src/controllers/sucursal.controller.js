@@ -74,3 +74,4 @@ sucursalCtrl.delete = (req, res) => {
         });
 }
 
+module.exports = sucursalCtrl;
