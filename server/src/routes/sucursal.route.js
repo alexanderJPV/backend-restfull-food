@@ -5,6 +5,7 @@ const router = express.Router();
 const multer = require('multer');
 const auth = require('../services/auth.service');
 const roleRequired = require('../_helpers/roleRequired');
+const attachCurrentUser = require('../_helpers/attachCurrentUser');
 // const attachCurrentUser = require('../_helpers/attachCurrentUser');
 
 // const storage = multer.diskStorage({
@@ -19,8 +20,10 @@ const roleRequired = require('../_helpers/roleRequired');
 // const upload = multer({ storage: storage });
 
 const sucursalCtrl = require('../controllers/sucursal.controller');
-router.get('/api/sucursales', sucursalCtrl.findAll);
-router.get('/api/sucursales/:id',auth.verifyToken, sucursalCtrl.findById);
+router.get('/api/sucursales', auth.verifyToken, attachCurrentUser, sucursalCtrl.findAll);
+router.get('/api/sucursales-by-user', auth.verifyToken, attachCurrentUser, sucursalCtrl.findAllByUser)
+router.post('/api/sucursales', auth.verifyToken, attachCurrentUser, sucursalCtrl.create);
+router.get('/api/sucursales/:id', auth.verifyToken, sucursalCtrl.findById);
 
 // router.get('/api/usuarios', auth.verifyToken, attachCurrentUser, roleRequired('ROL_ADMIN'), usuarioCtrl.findAll);
 // router.get('/api/usuarios/roles', auth.verifyToken, usuarioCtrl.findAllRol);

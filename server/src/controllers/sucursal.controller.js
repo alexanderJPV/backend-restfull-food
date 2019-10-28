@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const control = require('../_helpers/pagination');
 const Sucursal = db.sucursal;
 const Usuario = db.usuario;
+const Usuario_scursal = db.usuario_scursal;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op
 
@@ -35,14 +36,41 @@ sucursalCtrl.findAll = (req, res) => {
         });
 }
 
-sucursalCtrl.create = (req, res) => {
-    Sucursal.create(req.body).
+sucursalCtrl.findAllByUser = (req, res) => {
+    const page = req.query.page ? parseInt(req.query.page) : 0;
+    const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 10;
+    const offset = page * pageSize;
+    const limit = offset + pageSize;
+    const value = req.query.sort ? req.query.sort : 'id';
+    const type = req.query.type ? req.query.type.toUpperCase() : 'ASC';
+
+    Sucursal.findAndCountAll({ offset: parseInt(offset), limit: parseInt(pageSize), order: [[value, type]] }).
         then((sucursal) => {
-            Usuario.addSucursal(sucursal);
-            res.status(200).json(sucursal);
-        }).catch((err) => {
-            res.status(500).json({ msg: 'error', details: err });
+            const pages = Math.ceil(sucursal.count / limit);
+            const elements = sucursal.count;
+            res.status(200).json(
+                {
+                    elements,
+                    page,
+                    pageSize,
+                    pages,
+                    sucursal,
+                }
+            );
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: "error", details: err });
         });
+}
+
+sucursalCtrl.create = async (req, res) => {
+    try {
+        const data1 = await Sucursal.create(req.body);
+        const data2 = await Usuario_scursal.create({ usuarioId: req.currentUser.id, sucursalId: data1.dataValues.id });
+        res.status(200).json(data1);
+    } catch (error) {
+        res.status(500).json({ msg: 'error', details: error });
+    }
 }
 
 sucursalCtrl.update = (req, res) => {
