@@ -20,10 +20,13 @@ const attachCurrentUser = require('../_helpers/attachCurrentUser');
 // const upload = multer({ storage: storage });
 
 const sucursalCtrl = require('../controllers/sucursal.controller');
-router.get('/api/sucursales', auth.verifyToken, attachCurrentUser, sucursalCtrl.findAll);
-router.get('/api/sucursales-by-user', auth.verifyToken, attachCurrentUser, sucursalCtrl.findAllByUser)
-router.post('/api/sucursales', auth.verifyToken, attachCurrentUser, sucursalCtrl.create);
-router.get('/api/sucursales/:id', auth.verifyToken, sucursalCtrl.findById);
+// router.get('/api/sucursales', auth.verifyToken, attachCurrentUser, sucursalCtrl.findAll);
+router.get('/api/sucursales', sucursalCtrl.findAll);
+router.get('/api/sucursales-by-user', sucursalCtrl.findAllByUser)
+router.get('/api/sucursales/:id', sucursalCtrl.findById);
+router.post('/api/sucursales', sucursalCtrl.create);
+router.put('/api/sucursales', sucursalCtrl.update);
+router.delete('/api/sucursales/:id', sucursalCtrl.delete);
 
 // router.get('/api/usuarios', auth.verifyToken, attachCurrentUser, roleRequired('ROL_ADMIN'), usuarioCtrl.findAll);
 // router.get('/api/usuarios/roles', auth.verifyToken, usuarioCtrl.findAllRol);
