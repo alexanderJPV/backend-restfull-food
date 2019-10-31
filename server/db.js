@@ -51,6 +51,8 @@ db.sucursal = require('../server/src/models/sucursal.model')(sequelize, Sequeliz
 db.usuario_scursal = require('../server/src/models/usuario_sucursal.model')(sequelize, Sequelize);
 // db.califica = require('../server/src/models/califica.model')(sequelize, Sequelize);
 // db.visita = require('../server/src/models/visita.model')(sequelize, Sequelize);
+db.plato_especial = require('../server/src/models/plato_especial')(sequelize, Sequelize);
+
 // --------------------------- relationship (usuario <-> usuario_sucursal)
 db.usuario.belongsToMany(db.sucursal, { through: db.usuario_scursal, onDelete: 'CASCADE' });
 db.sucursal.belongsToMany(db.usuario, { through: db.usuario_scursal, onDelete: 'CASCADE' });

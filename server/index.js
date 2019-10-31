@@ -8,11 +8,12 @@ const data = require('./src/_helpers/liquidBase/changeLog');
 // const Sucursal = db.sucursal;
 // reset database.
 
-db.sequelize.sync({ force: true }).then(() => {
-    console.log('Drop and resync with { force: true }');
-    data.initialDataUser();
-    data.initialDataSucursal();
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//     console.log('Drop and resync with { force: true }');
+//     data.initialDataUser();
+//     data.initialDataSucursal();
+//     data.initialDataPlatosEsp();
+// });
 
 // db.sequelize.sync({ force: true })
 //     .then(() => {
@@ -51,6 +52,7 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+app.use(require('./src/routes/plato_especial.route'));
 app.use(require('./src/routes/sucursal.route'));
 app.use(require('./src/routes/usuario.route'));
 app.use(require('./src/routes/auth.route'));

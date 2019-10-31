@@ -86,10 +86,6 @@ usuarioCtrl.create = (req, res) => {
      console.log('---------------------------------------------------');
     bcrypt.hash(req.body.password, 10, function (err, hash) {
         const datas = Object.assign({}, req.body);
-        const urimage = ``;
-        if (req.body.imagen != null) {
-            urimage = `http://localhost:3000/${req.file.path}`;
-        }
         const newUser = {
             id: null,
             nombres: datas.nombres,
@@ -99,7 +95,7 @@ usuarioCtrl.create = (req, res) => {
             password: hash,
             rol: [req.body.rol],
             estado: datas.estado,
-            imagen: urimage,
+            imagen: req.file ? `http://localhost:3000/${req.file.path}` : datas.imagen,
             name: datas.name,
             type: datas.type,
             genero: datas.genero,

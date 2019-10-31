@@ -66,8 +66,22 @@ sucursalCtrl.findAllByUser = (req, res) => {
 sucursalCtrl.create = async (req, res) => {
     const sucursal = Object.assign({}, req.body);
     try {
+        console.log('----------------------------------------------------');
         console.log(sucursal);
-        const data1 = await Sucursal.create(sucursal);
+        const datas = Object.assign({}, req.body);
+        const newSucursal = {
+            id: null,
+            razon_social: datas.razon_social,
+            telefono: datas.apellidos,
+            descripcion: datas.descripcion,
+            tipo: [req.body.tipo],
+            imagen: req.file ? `http://localhost:3000/${req.file.path}` : datas.imagen,
+            type: datas.type,
+            name: datas.name,
+            nit: datas.nit,
+            // direccion: datas.direccion
+        };
+        const data1 = await Sucursal.create(newSucursal);
         // const data2 = await Usuario_scursal.create({ usuarioId: req.currentUser.id, sucursalId: data1.dataValues.id });
         res.status(200).json(data1);
     } catch (error) {

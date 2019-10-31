@@ -24,7 +24,9 @@ const sucursalCtrl = require('../controllers/sucursal.controller');
 router.get('/api/sucursales', auth.verifyToken, sucursalCtrl.findAll);
 // router.get('/api/sucursales-by-user', sucursalCtrl.findAllByUser)
 router.get('/api/sucursales/:id', sucursalCtrl.findById);
+
 router.post('/api/sucursales', auth.verifyToken, upload.single('imageUpload'), sucursalCtrl.create);
+
 router.put('/api/sucursales', sucursalCtrl.update);
 router.delete('/api/sucursales/:id', sucursalCtrl.delete);
 
