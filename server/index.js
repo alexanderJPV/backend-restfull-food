@@ -10,7 +10,7 @@ const data = require('./src/_helpers/liquidBase/changeLog');
 
 db.sequelize.sync({ force: true }).then(() => {
     console.log('Drop and resync with { force: true }');
-    data.initialDataUsFer();
+    data.initialDataUser();
     data.initialDataSucursal();
 });
 
