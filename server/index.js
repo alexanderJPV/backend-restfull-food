@@ -8,11 +8,11 @@ const data = require('./src/_helpers/liquidBase/changeLog');
 // const Sucursal = db.sucursal;
 // reset database.
 
-// db.sequelize.sync({ force: true }).then(() => {
-//     console.log('Drop and resync with { force: true }');
-//     data.initialDataUser();
-//     data.initialDataSucursal();
-// });
+db.sequelize.sync({ force: true }).then(() => {
+    console.log('Drop and resync with { force: true }');
+    data.initialDataUsFer();
+    data.initialDataSucursal();
+});
 
 // db.sequelize.sync({ force: true })
 //     .then(() => {
