@@ -7,6 +7,7 @@ const data = require('./src/_helpers/liquidBase/changeLog');
 // const Usuario = db.usuario;
 // const Sucursal = db.sucursal;
 // reset database.
+
 // db.sequelize.sync({ force: true }).then(() => {
 //     console.log('Drop and resync with { force: true }');
 //     data.initialDataUser();
@@ -35,8 +36,6 @@ const data = require('./src/_helpers/liquidBase/changeLog');
 //             console.log(sucursal);
 //         }).catch((err) => {
 //             console.log('errorrrrrrrrrrrrrrrrrrrr')});
-
-
 
 app.set('port', process.env.PORT || 3000);
 

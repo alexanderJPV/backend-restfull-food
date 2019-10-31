@@ -64,13 +64,22 @@ sucursalCtrl.findAllByUser = (req, res) => {
 }
 
 sucursalCtrl.create = async (req, res) => {
-    try {
-        const data1 = await Sucursal.create(req.body);
-        const data2 = await Usuario_scursal.create({ usuarioId: req.currentUser.id, sucursalId: data1.dataValues.id });
-        res.status(200).json(data1);
-    } catch (error) {
-        res.status(500).json({ msg: 'error', details: error });
-    }
+    console.log('< ============================================================>');
+    console.log(req.body);
+    Sucursal.create(req.body).
+    then((sucursal) => {
+        res.status(200).json(sucursal);
+    }).catch((err) => {
+        res.status(500).json({ msg: 'error', details: err });
+    });
+    // try {
+    //     console.log(req.body);
+    //     const data1 = await Sucursal.create(req.body);
+    //     // const data2 = await Usuario_scursal.create({ usuarioId: req.currentUser.id, sucursalId: data1.dataValues.id });
+    //     res.status(200).json(data1);
+    // } catch (error) {
+    //     res.status(500).json({ msg: 'error', details: error });
+    // }
 }
 
 sucursalCtrl.update = (req, res) => {

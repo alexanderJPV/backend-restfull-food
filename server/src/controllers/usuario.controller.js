@@ -79,11 +79,11 @@ usuarioCtrl.findAll = (req, res) => {
 }
 
 usuarioCtrl.create = (req, res) => {
-    /*  console.log('---------------------------------------------------');
+     console.log('---------------------------------------------------');
      console.log('---------------------------------------------------');
      console.log(req.body);
      console.log('---------------------------------------------------');
-     console.log('---------------------------------------------------'); */
+     console.log('---------------------------------------------------');
     bcrypt.hash(req.body.password, 10, function (err, hash) {
         const datas = Object.assign({}, req.body);
         const urimage = ``;
