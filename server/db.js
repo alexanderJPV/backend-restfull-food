@@ -1,11 +1,26 @@
 const pg = require('pg');
+const fs = require('fs');
+
+const dotenv = require('dotenv');
+if (process.env.NODE_ENV === 'production') {
+    const envConfig = dotenv.parse(fs.readFileSync('.env.production'));
+    for (const k in envConfig) {
+        process.env[k] = envConfig[k]
+    }
+}
+if (process.env.NODE_ENV === 'development') {
+    const envConfig = dotenv.parse(fs.readFileSync('.env.development'));
+    for (const k in envConfig) {
+        process.env[k] = envConfig[k]
+    }
+}
 
 const client = new pg.Client({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'restfullfood',
-    password: '123',
-    port: 5432,
+    user: process.env.POSTGRES_USER,
+    host: process.env.HOST,
+    database: process.env.POSTGRES_DB,
+    password: process.env.POSTGRES_PASSWORD,
+    port: process.env.POSTGRES_PORT,
 });
 
 client.connect()
@@ -13,10 +28,10 @@ client.connect()
     .catch(err => console.error(err));
 
 const env = {
-    database: 'restfullfood',
-    username: 'postgres',
-    password: '123',
-    host: 'localhost',
+    database: process.env.POSTGRES_DB,
+    username: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    host: process.env.HOST,
     dialect: 'postgres',
     pool: {
         max: 5,
@@ -32,6 +47,7 @@ const sequelize = new Sequelize(env.database, env.username, env.password, {
     host: env.host,
     dialect: env.dialect,
     operatorsAliases: false,
+    port: process.env.POSTGRES_PORT,
     pool: {
         max: env.max,
         min: env.pool.min,
