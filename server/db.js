@@ -48,6 +48,9 @@ const sequelize = new Sequelize(env.database, env.username, env.password, {
     dialect: env.dialect,
     operatorsAliases: false,
     port: process.env.POSTGRES_PORT,
+    dialectOptions: {
+        connectTimeout: 60000
+    },
     pool: {
         max: env.max,
         min: env.pool.min,
