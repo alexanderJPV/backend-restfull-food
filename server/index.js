@@ -25,7 +25,7 @@ db.sequelize.sync({ force: true }).then(() => {
     console.log('Drop and resync with { force: true }');
     data.initialDataUser();
     data.initialDataSucursal();
-    // data.initialDataPlatosEsp();
+    data.initialDataPlatosEsp();
 });
 
 app.set('port', process.env.PORT || 3000);
