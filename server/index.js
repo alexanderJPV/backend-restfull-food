@@ -2,41 +2,31 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
-const db = require('./db');
 const data = require('./src/_helpers/liquidBase/changeLog');
-// const Usuario = db.usuario;
-// const Sucursal = db.sucursal;
+const fs = require('fs');
+
+const dotenv = require('dotenv');
+if (process.env.NODE_ENV === 'production') {
+    const envConfig = dotenv.parse(fs.readFileSync('.env.production'));
+    for (const k in envConfig) {
+        process.env[k] = envConfig[k]
+    }
+}
+if (process.env.NODE_ENV === 'development') {
+    const envConfig = dotenv.parse(fs.readFileSync('.env.development'));
+    for (const k in envConfig) {
+        process.env[k] = envConfig[k]
+    }
+}
+
 // reset database.
-
-// db.sequelize.sync({ force: true }).then(() => {
-//     console.log('Drop and resync with { force: true }');
-//     data.initialDataUser();
-//     data.initialDataSucursal();
-//     data.initialDataPlatosEsp();
-// });
-
-// db.sequelize.sync({ force: true })
-//     .then(() => {
-//         data.initialDataUser();
-//         data.initialDataSucursal();
-//     });
-
-// Usuario.findOne({ where: { id: '1' } })
-//     .then( usuario => {
-//         console.log('---------------------------------------------------------**********************');
-//         // console.log(usuario);
-//     }).catch((err) => {
-//         console.log('errorrrrrrrrrrrrrrrrrrrr')});
-
-// Sucursal.findOne({ where: { id: '1' } })
-//         .then( sucursal => {
-//             console.log('---------------------------------------------------------**********************');
-//             console.log(sucursal);
-//         }).then( sucursal => {
-//             console.log('---------------------------------------------------------**********************');
-//             console.log(sucursal);
-//         }).catch((err) => {
-//             console.log('errorrrrrrrrrrrrrrrrrrrr')});
+const db = require('./db');
+db.sequelize.sync({ force: true }).then(() => {
+    console.log('Drop and resync with { force: true }');
+    data.initialDataUser();
+    data.initialDataSucursal();
+    // data.initialDataPlatosEsp();
+});
 
 app.set('port', process.env.PORT || 3000);
 
@@ -44,7 +34,7 @@ app.set('port', process.env.PORT || 3000);
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:4200' })) // connect to port angular
+app.use(cors({ origin: process.env.PORT_FRONTEND })) // connect to port angular
 
 // routes
 app.use(function (req, res, next) {
