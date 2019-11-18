@@ -28,17 +28,17 @@ module.exports = (sequealize, Sequealize) => {
         nit: {
             type: Sequealize.INTEGER
         },
+         direccion: {
+            type: Sequealize.STRING
+        },
+        dias: {
+            type: Sequealize.ARRAY(Sequealize.STRING)
+        },
         hora_apertura: {
             type: Sequealize.ARRAY(Sequealize.STRING)
         },
         hora_cierre: {
             type: Sequealize.ARRAY(Sequealize.STRING)
-        },
-        dias: {
-            type: Sequealize.ARRAY(Sequealize.STRING)
-        },
-        direccion: {
-            type: Sequealize.STRING
         },
         latitud: {
             type: Sequealize.DOUBLE

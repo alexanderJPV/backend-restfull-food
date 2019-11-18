@@ -2,5 +2,6 @@ module.exports = [
     'NACIONAL',
     'INTERNACIONAL',
     'VEGETARIANA',
-    'VEGANA'
+    'VEGANA',
+    'OTROS'
 ]

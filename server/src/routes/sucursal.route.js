@@ -26,8 +26,9 @@ router.get('/api/sucursales/tipos', sucursalCtrl.findAllTipo);
 router.get('/api/sucursales/:id', sucursalCtrl.findById);
 // router.get('/api/sucursales-by-user', sucursalCtrl.findAllByUser)
 router.post('/api/sucursales', auth.verifyToken, upload.single('imageUpload'), sucursalCtrl.create);
-router.put('/api/sucursales', sucursalCtrl.update);
-router.delete('/api/sucursales/:id', sucursalCtrl.delete);
+router.put('/api/sucursales', auth.verifyToken, upload.single('imageUpload'), sucursalCtrl.update);
+router.delete('/api/sucursales/:id',auth.verifyToken, sucursalCtrl.delete);
+router.get('/api/tipos',auth.verifyToken, sucursalCtrl.tipos);
 
 // router.get('/api/usuarios', auth.verifyToken, attachCurrentUser, roleRequired('ROL_ADMIN'), usuarioCtrl.findAll);
 // router.get('/api/usuarios/roles', auth.verifyToken, usuarioCtrl.findAllRol);

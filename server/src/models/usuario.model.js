@@ -74,9 +74,9 @@ module.exports = (sequealize, Sequealize) => {
         telefono: {
             type: Sequealize.STRING
         },
-        id_colaborador: {
-            type: Sequealize.INTEGER
-        },
+        // id_colaborador: {
+        //     type: Sequealize.INTEGER
+        // },
         activate_key: {
             type: Sequealize.STRING
         },

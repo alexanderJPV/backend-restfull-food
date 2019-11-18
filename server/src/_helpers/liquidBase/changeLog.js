@@ -173,10 +173,10 @@ const dataSucursal = [
         descripcion: 'Restaurante familiar',
         tipo: ['NACIONAL'],
         nit: 123456,
+        direccion: 'Av. satelite #100',
+        dias: ['lunes','martes'],
         hora_apertura: ["09:00 am","10:00 am"],
         hora_cierre: ["05:00 pm","09:00 pm"],
-        dias: ['lunes','martes'],
-        direccion: 'Av. satelite #100',
         latitud: 0.12309,
         longitud: 0.43122
     },
@@ -186,10 +186,10 @@ const dataSucursal = [
         descripcion: 'Restaurante popular',
         tipo: ['RAPIDA'],
         nit: 123456,
+        direccion: 'Av. satelite #200',
+        dias: ['lunes','martes'],
         hora_apertura: ["09:00 am","08:00 am"],
         hora_cierre: ["06:00 pm","05:00 pm"],
-        dias: ['lunes','martes'],
-        direccion: 'Av. satelite #200',
         latitud: 0.12309,
         longitud: 0.43122
     },
@@ -199,10 +199,10 @@ const dataSucursal = [
         descripcion: 'Restaurante pub',
         tipo: ['RAPIDA'],
         nit: 1234567,
+        direccion: 'Irpavi #200',
+        dias: ['lunes','martes','miercoles'],
         hora_apertura: ["09:00 am","08:00 am","10:00 am"],
         hora_cierre: ["05:00 pm","07:00 pm","08:00 pm"],
-        dias: ['lunes','martes','miercoles'],
-        direccion: 'Irpavi #200',
         latitud: 0.12309,
         longitud: 0.43122
     }

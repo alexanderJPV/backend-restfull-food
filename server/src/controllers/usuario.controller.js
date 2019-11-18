@@ -147,7 +147,8 @@ usuarioCtrl.update = async (req, res) => {
         then((usuario) => {
             res.status(200).json(usuario);
         }).catch((err) => {
-            res.status(500).json({ msg: 'error', details: err });
+            const dataError = Object.assign({}, err.errors['0']);
+            res.status(500).json({ msg: 'error', details: dataError });
         });
 }
 

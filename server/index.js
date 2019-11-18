@@ -19,14 +19,14 @@ if (process.env.NODE_ENV === 'development') {
     }
 }
 
-// reset database.
-const db = require('./db');
-db.sequelize.sync({ force: true }).then(() => {
-    console.log('Drop and resync with { force: true }');
-    data.initialDataUser();
-    data.initialDataSucursal();
-    data.initialDataPlatosEsp();
-});
+// ------------reset database.
+// const db = require('./db');
+// db.sequelize.sync({ force: true }).then(() => {
+//     console.log('Drop and resync with { force: true }');
+//     data.initialDataUser();
+//     data.initialDataSucursal();
+//     data.initialDataPlatosEsp();
+// });
 
 app.set('port', process.env.PORT || 3000);
 
