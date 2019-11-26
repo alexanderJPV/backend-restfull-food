@@ -30,6 +30,9 @@ router.put('/api/sucursales', auth.verifyToken, upload.single('imageUpload'), su
 router.delete('/api/sucursales/:id',auth.verifyToken, sucursalCtrl.delete);
 router.get('/api/tipos',auth.verifyToken, sucursalCtrl.tipos);
 
+router.post('/api/added-user', sucursalCtrl.addedUser);
+router.get('/api/filter-usuarios-by-sucursal/:id', sucursalCtrl.findUsesInSucursal);
+
 // router.get('/api/usuarios', auth.verifyToken, attachCurrentUser, roleRequired('ROL_ADMIN'), usuarioCtrl.findAll);
 // router.get('/api/usuarios/roles', auth.verifyToken, usuarioCtrl.findAllRol);
 // router.post('/api/usuarios', auth.verifyToken, upload.single('imageUpload'), usuarioCtrl.create);

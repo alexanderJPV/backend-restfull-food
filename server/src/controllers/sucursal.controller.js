@@ -231,4 +231,20 @@ sucursalCtrl.delete = (req, res) => {
 sucursalCtrl.tipos = async(req, res) =>{
     await res.status(200).json(tipos);
 }
+
+sucursalCtrl.addedUser = async (req, res) => {
+    try {
+        const data2 = await Usuario_scursal.create({ usuarioId: req.body.usuarioId, sucursalId: req.body.sucursalId });
+        res.status(200).json(data2);
+    } catch (error) {
+        res.status(500).json({ msg: 'error', details: error });
+    }
+}
+
+sucursalCtrl.findUsesInSucursal = async (req, res) => {
+    const data = await Sucursal.findOne({ where: { id: req.params.id},
+        include: [{ model: Usuario, as: 'usuarios', require: false, attributes: ['id', 'nombres', 'apellidos', 'userName', 'email', 'imagen', 'genero', 'estado', 'telefono'], }]});
+    res.status(200).json(data);
+}
+
 module.exports = sucursalCtrl;
