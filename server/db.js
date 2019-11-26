@@ -73,7 +73,7 @@ db.usuario_scursal = require('../server/src/models/usuario_sucursal.model')(sequ
 db.plato_especial = require('../server/src/models/plato_especial')(sequelize, Sequelize);
 
 // --------------------------- relationship (usuario <-> usuario_sucursal)
-db.usuario.belongsToMany(db.sucursal, { through: db.usuario_scursal, onDelete: 'CASCADE' });
-db.sucursal.belongsToMany(db.usuario, { through: db.usuario_scursal, onDelete: 'CASCADE' });
+db.usuario.belongsToMany(db.sucursal, { through: db.usuario_scursal, onDelete: 'CASCADE', foreignKey: 'user_id'});
+db.sucursal.belongsToMany(db.usuario, { through: db.usuario_scursal, onDelete: 'CASCADE', foreignKey: 'sucursal_id'});
 
 module.exports = db;

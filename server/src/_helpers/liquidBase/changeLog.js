@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const db = require('../../../db');
 const Usuario = db.usuario;
 const Sucursal = db.sucursal;
-// const usuario_sucursal = db.usuario_scursal;
+const usuario_sucursal = db.usuario_scursal;
 const plato_especial = db.plato_especial;
 
 const dataUser = [
@@ -230,12 +230,12 @@ const dataPlatoEsp = [
         descripcion: 'Caldo aji con carne de cerdo'
     }
 ];
-// const dataRelation = [
-//     {
-//         userId: 1,
-//         sucursalId: 1
-//     }
-// ]
+const dataRelation = [
+    {
+        user_id: 1,
+        sucursal_id: 1
+    }
+]
 exports.initialDataUser = function () {
     dataUser.forEach(usuario => {
         // bcrypt.hash(usuario.password, 10, function (err, hash) {
@@ -255,8 +255,8 @@ exports.initialDataPlatosEsp = function () {
         plato_especial.create(plato);
     });
 }
-// exports.initialdataRelation = function () {
-//     dataRelation.forEach(usersucursal => {
-//         usuario_sucursal.create(usersucursal);
-//     });
-// }
+exports.initialdataRelation = function () {
+    dataRelation.forEach(usersucursal => {
+        usuario_sucursal.create(usersucursal);
+    });
+}
